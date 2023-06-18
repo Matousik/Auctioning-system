@@ -11,6 +11,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await dbConnect();
 
   switch (method) {
+    case 'GET':
+      try {
+        const auctionEvent = await AuctionEvent.findById(id);
+        if (!auctionEvent) {
+          return res.status(400).json({ success: false });
+        }
+        res.status(200).json({ success: true, data: auctionEvent });
+      } catch (error) {
+        res.status(400).json({ success: false });
+      }
+      break;
     case 'PUT':
       await adminCheck(req, res, async () => {
         try {
