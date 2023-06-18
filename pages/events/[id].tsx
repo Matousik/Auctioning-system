@@ -1,11 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Timer from '../../components/timer';
 
 interface AuctionEvent {
   _id: string;
   title: string;
   description: string;
+  endDate: Date;
 }
 
 interface AuctionItem {
@@ -74,6 +76,7 @@ export default function EventDetails() {
         <>
           <h1>{event.title}</h1>
           <p>{event.description}</p>
+          <Timer endDate={event.endDate} />
           <h2>Items</h2>
           {items.map(item => (
             <div key={item._id}>
