@@ -7,7 +7,7 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
   await dbConnect();
 
   if (req.method === 'POST') {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     const existingUser = await User.findOne({ email });
 
@@ -18,7 +18,7 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const newUser = new User({ email, password: hashedPassword });
+    const newUser = new User({ email, password: hashedPassword, role });
 
     await newUser.save();
 

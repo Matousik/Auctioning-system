@@ -1,0 +1,107 @@
+Auction event creation:
+
+fetch('http://localhost:3000/api/auctionEvent', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    title: 'Test Auction Event',
+    description: 'This is a test auction event.',
+    startDate: new Date(),
+    endDate: new Date(),
+    items: []
+  })
+}).then(response => response.json())
+  .then(data => console.log(data))
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+Auction event listing:
+
+fetch('http://localhost:3000/api/auctionEvent/', {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}).then(response => response.json())
+  .then(data => console.log(data))
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+Auction event updating:
+
+fetch('/api/auctionEvent/648e9a0d110650d7bdcf35f8', {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    title: 'Updated Title',
+    description: 'Updated Dedddddddddddddhhhhhhhhscription',
+  }),
+})
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+Auction event deletion:
+
+fetch('http://localhost:3000/api/auctionEvent/648e9a0d110650d7bdcf35f8', {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  })
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+
+*** Auction items
+
+Auction item creation:
+
+fetch('http://localhost:3000/api/auctionItem', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    title: 'Test Item',
+    description: 'this is a test auctioning item',  
+    startPrice: 100,
+    currentPrice: 100,
+    auction: '648e9a3d110650d7bdcf35fd' // replace this with an actual auctionEvent id
+  }),
+})
+.then(response => response.json())
+.then(data => console.log(data));
+
+Auction item listing:
+
+fetch('http://localhost:3000/api/auctionItem')
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+Auction item updating:
+
+fetch('http://localhost:3000/api/auctionItem/648e9b73110650d7bdcf360b', { // replace this with an actual auctionItem id
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    currentPrice: 200,
+  }),
+})
+.then(response => response.json())
+.then(data => console.log(data));
+
+Auction item deleting:
+
+fetch('http://localhost:3000/api/auctionItem/648e135e8143bb7496c9d8c6', { // replace this with an actual auctionItem id
+  method: 'DELETE',
+})
+.then(response => response.json())
+.then(data => console.log(data));

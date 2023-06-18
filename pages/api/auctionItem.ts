@@ -1,5 +1,6 @@
 import dbConnect from '../../dbConnect';
 import AuctionItem from '../../models/AuctionItem';
+import adminCheck from '@/middlewares/adminCheck';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -17,12 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
     case 'POST':
-      try {
-        const auctionItem = await AuctionItem.create(req.body);
-        res.status(201).json({ success: true, data: auctionItem })
-      } catch (error) {
-        res.status(400).json({ success: false })
-      }
+      await adminCheck(req, res, async () => {
+        try {
+          const auctionItem = await AuctionItem.create(req.body);
+          res.status(201).json({ success: true, data: auctionItem })
+        } catch (error) {
+          res.status(400).json({ success: false })
+        }
+      });
       break;
     default:
       res.status(400).json({ success: false })

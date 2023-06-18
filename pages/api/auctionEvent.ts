@@ -1,6 +1,7 @@
 import dbConnect from '../../dbConnect';
 import AuctionEvent from '../../models/AuctionEvent';
 import { NextApiRequest, NextApiResponse } from 'next';
+import adminCheck from '@/middlewares/adminCheck';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -17,13 +18,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
     case 'POST':
-      try {
-        const auctionEvent = await AuctionEvent.create(req.body);
-        res.status(201).json({ success: true, data: auctionEvent })
-      } catch (error) {
-        res.status(400).json({ success: false })
-      }
+      await adminCheck(req, res, async () => {
+        try {
+          const auctionEvent = await AuctionEvent.create(req.body);
+          res.status(201).json({ success: true, data: auctionEvent });
+        } catch (error) {
+          res.status(400).json({ success: false });
+        }
+      });
       break;
+    // PUT and DELETE requests are handled in pages/api/auctionEvent/[id].ts      
     default:
       res.status(400).json({ success: false })
       break;
