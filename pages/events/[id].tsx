@@ -77,6 +77,7 @@ export default function EventDetails() {
           <h1>{event.title}</h1>
           <p>{event.description}</p>
           <Timer endDate={event.endDate} />
+          {/* TODO: Implement the blockage of bidding when the time is up. */}
           <h2>Items</h2>
           {items.map(item => (
             <div key={item._id}>
