@@ -16,6 +16,9 @@ export default function Navbar() {
         <li>
           <Link href="/events">Aukce</Link>
         </li>
+        <li>
+          <Link href="/admin/createEvent">Administrace (vytvořit aukci)</Link>
+        </li>
       </ul>
     </nav>
   );

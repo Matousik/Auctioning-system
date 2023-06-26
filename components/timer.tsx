@@ -34,9 +34,11 @@ function Timer({ endDate }: { endDate: Date }) {
     return () => clearTimeout(timer);
   }, [timeLeft]); // Add timeLeft to the dependency array
 
+  const timerIsFinished = !timeLeft.days && !timeLeft.hours && !timeLeft.minutes && !timeLeft.seconds;
+
   return (
     <div>
-      {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+      {timerIsFinished ? "Čas vypršel!" : `${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
     </div>
   );
 }
