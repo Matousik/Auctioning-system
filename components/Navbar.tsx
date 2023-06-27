@@ -1,25 +1,24 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { useUser } from '../context/UserContext'; // import the useUser hook from UserContext
+import axios, { AxiosError } from 'axios';
 
 export default function Navbar() {
   const { user, setUser } = useUser(); // use the useUser hook to get the user and setUser function
 
   useEffect(() => {
     if (!user) {
-      // only fetch the user if it's not already set in the context
       const getUser = async () => {
-        const res = await fetch('/api/user', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
-
-        if (res.ok) {
-          const { user: fetchedUser } = await res.json();
-          setUser(fetchedUser);
+        try {
+          const res = await axios.get('/api/user');
+          setUser(res.data.user);
+        } catch (error) {
+          const axiosError = error as AxiosError;
+          if (axiosError.response && axiosError.response.status === 401) {
+            setUser(null);
+          } else {
+            console.error(axiosError);
+          }
         }
       };
 
@@ -62,16 +61,13 @@ export default function Navbar() {
   );
 
   async function handleLogout() {
-    const res = await fetch('/api/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-
-    if (res.ok) {
+    try {
+      await axios.post('/api/logout');
       setUser(null);
+    } catch (error) {
+      // Handle any errors here, such as showing a notification to the user
+      console.error(error);
     }
   }
+  
 }

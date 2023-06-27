@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 interface UserContextProps {
   user: any;
@@ -17,7 +17,12 @@ export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }
           const res = await axios.get('/api/user');
           setUser(res.data.user);
         } catch (error) {
-          setUser(null);
+          const axiosError = error as AxiosError;
+          if (axiosError.response && axiosError.response.status === 401) {
+            setUser(null);
+          } else {
+            console.error(axiosError);
+          }
         }
       };
   
