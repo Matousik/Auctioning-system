@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
 import jwt from 'jsonwebtoken';
 
-interface NextApiRequestExtended extends NextApiRequest {
+export interface NextApiRequestExtended extends NextApiRequest {
   user?: any;
 }
 

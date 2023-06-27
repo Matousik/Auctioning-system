@@ -2,6 +2,8 @@ import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
+import { useUser } from '@/context/UserContext';
+import { set } from 'mongoose';
 
 interface ErrorResponse {
   message: string;
@@ -12,13 +14,19 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { setUser } = useUser();
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      await axios.post('/api/login', { email, password });
-      // TODO: Handle successful login (e.g., setting a cookie or local storage item, updating state, etc.)
+      const response = await axios.post('/api/login', { email, password }, 
+      {
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      setUser(response.data.user);
       router.push('/');
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
