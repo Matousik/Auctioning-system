@@ -18,7 +18,7 @@ const SignupPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      await axios.post('/api/signup', { email, password });
+      await axios.post('/api/signup', { email, password, role });
       router.push('/login');
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
