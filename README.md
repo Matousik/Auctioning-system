@@ -1,8 +1,8 @@
-## Auctioning system
+# Auctioning system
 
 This is a Proof of Concept of online auctioning system utilizing Next.js for client and server side rendering and MongoDB. The auctions are conducted in a way that there can be more auctioned items bound to a unique auction event that has defined time of validity.
 
-# Motivation
+## Motivation
 
 This system can serve as a fully autonomous replacement for all sorts of auctions conducted online, those auctions can contain more auctioned items at once. This is fairly typical for auctions conducted on Facebook or any other internet medium or application that may provide those features but is not really optimized for it.
 
