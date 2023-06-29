@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 interface AuctionEvent {
   _id: string;
@@ -11,9 +12,9 @@ export default function Events() {
   const [events, setEvents] = useState<AuctionEvent[]>([]);
 
   useEffect(() => {
-    fetch('/api/auctionEvent')
-      .then(response => response.json())
-      .then(data => setEvents(data.data));
+    axios.get('/api/auctionEvent')
+      .then(response => setEvents(response.data.data))
+      .catch(error => console.error(error));
   }, []);
 
   return (
