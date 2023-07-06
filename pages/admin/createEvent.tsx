@@ -17,6 +17,7 @@ export default function CreateEvent() {
     // Reset error message
     setErrorMessage(null);
 
+
     try {
       // Make API request
       const res = await axios.post('/api/auctionEvent', {
@@ -52,7 +53,8 @@ export default function CreateEvent() {
         // Unknown error occurred
         setErrorMessage('An unexpected error occurred.');
       }
-    }  };
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
