@@ -1,15 +1,16 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
+import { IUserSchema } from '@/models/User';
 
 interface UserContextProps {
-  user: any;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
+  user: IUserSchema | null;
+  setUser: React.Dispatch<React.SetStateAction<IUserSchema | null>>;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-    const [user, setUser] = useState<any | null>(null);
+    const [user, setUser] = useState<IUserSchema | null>(null);
   
     useEffect(() => {
       const getUser = async () => {

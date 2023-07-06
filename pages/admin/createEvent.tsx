@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
+import axios, { AxiosError } from 'axios';
 
 export default function CreateEvent() {
   const router = useRouter();
@@ -16,38 +17,42 @@ export default function CreateEvent() {
     // Reset error message
     setErrorMessage(null);
 
-    // Make API request
-    const res = await fetch('/api/auctionEvent', {
-      body: JSON.stringify({
+    try {
+      // Make API request
+      const res = await axios.post('/api/auctionEvent', {
         title,
         description,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
-
-    // Handle response
-    if (!res.ok) {
-      const { message } = await res.json();
-      setErrorMessage(message);
-      return;
-    }
-
-    const result = await res.json();
-
-    // Handle the result of the API call
-    if (!result.success) {
-      setErrorMessage(result.message);
-      return;
-    }
-
-    // Redirect to the events page
-    router.push('/events');
-  };
+      });
+    
+      // Handle the result of the API call
+      if (!res.data.success) {
+        setErrorMessage(res.data.message);
+        return;
+      }
+    
+      // Redirect to the events page
+      router.push('/events');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          const { message } = error.response.data;
+          setErrorMessage(message);
+        } else if (error.request) {
+          // The request was made but no response was received
+          setErrorMessage('No response received from server.');
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          setErrorMessage(error.message);
+        }
+      } else {
+        // Unknown error occurred
+        setErrorMessage('An unexpected error occurred.');
+      }
+    }  };
 
   return (
     <form onSubmit={handleSubmit}>

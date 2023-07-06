@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
 import { useUser } from '@/context/UserContext';
-import { set } from 'mongoose';
 
 interface ErrorResponse {
   message: string;
@@ -21,10 +20,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/login', { email, password }, 
-      {
-        headers: { 'Content-Type': 'application/json' }
-      });
+      const response = await axios.post('/api/login', { email, password });
 
       setUser(response.data.user);
       router.push('/');
