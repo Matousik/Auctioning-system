@@ -1,3 +1,10 @@
+/**
+ * This module defines and exports a 'User' model for MongoDB using Mongoose. 
+ * It declares an 'IUserSchema' interface, which shapes User documents. 
+ * Then, it specifies a 'UserSchema', outlining the structure and data types of User documents. 
+ * Finally, it compiles and exports a 'User' model based on 'UserSchema', avoiding recompilation if the model already exists.
+ */
+
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface IUserSchema extends Document {
