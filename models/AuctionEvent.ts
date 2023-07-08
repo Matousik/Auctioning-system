@@ -1,3 +1,10 @@
+/**
+ * This module defines and exports an 'AuctionEvent' model for MongoDB using Mongoose. 
+ * The 'IAuctionEventSchema' interface outlines the AuctionEvent documents, including an array of 'items'.
+ * 'AuctionEventSchema' structures the AuctionEvent documents in MongoDB, referencing 'AuctionItem' collection for 'items'. 
+ * The module exports an 'AuctionEvent' model based on 'AuctionEventSchema', reusing the model if it already exists.
+ */
+
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 interface IAuctionEventSchema extends Document {

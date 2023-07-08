@@ -1,3 +1,10 @@
+/**
+ * This module defines and exports an 'AuctionItem' model for MongoDB using Mongoose. 
+ * The 'IAuctionItemSchema' interface shapes the AuctionItem documents, including an array of 'IBid' subdocuments.
+ * The 'AuctionItemSchema' describes the structure of AuctionItem documents, referencing 'User' and 'AuctionEvent' collections. 
+ * The module exports a 'AuctionItem' model based on 'AuctionItemSchema', reusing the model if it already exists.
+ */
+
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 interface IBid {

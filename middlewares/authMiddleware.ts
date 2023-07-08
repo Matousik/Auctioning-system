@@ -1,14 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
 import jwt from 'jsonwebtoken';
+import { UserJWTPayload } from '@/interfaces/UserJWTPayload';
 
 export interface NextApiRequestExtended extends NextApiRequest {
-  user?: any;
+  user?: UserJWTPayload;
 }
 
 const authMiddleware = async (req: NextApiRequestExtended, res: NextApiResponse, next: () => void) => {
   const cookies = new Cookies(req, res);
   const token = cookies.get('auth-token');
+  console.log(token);
 
   if (!token) {
     res.status(401).json({ success: false, message: 'Not authenticated' });

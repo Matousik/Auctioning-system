@@ -1,3 +1,10 @@
+/**
+ * This module exports a generic error handling function, 'handleError', capable of handling Axios and generic JavaScript/TypeScript errors.
+ * For Axios errors, it logs the error message and details about the HTTP response (if available).
+ * For general errors, it logs the error message and stack trace.
+ * If the error doesn't match either of these types, it simply logs that an unknown error occurred.
+ */
+
 import axios, { AxiosError } from "axios";
 
 export function handleError(error: unknown): void {

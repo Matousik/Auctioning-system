@@ -1,3 +1,10 @@
+/**
+ * This component, Timer, calculates and displays the remaining time until a specified end date (typically the end of an auction event).
+ * The remaining time is recalculated every second. If the timer has reached zero, a message "Čas vypršel!" is displayed instead of the time.
+ * It uses the React 'useState' and 'useEffect' hooks for managing state and side effects respectively.
+ * TODO: Implement functionality to disable further bids when the timer finishes.
+ */
+
 import { useEffect, useState } from 'react';
 
 interface TimeLeft {
