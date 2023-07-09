@@ -10,7 +10,6 @@ export interface NextApiRequestExtended extends NextApiRequest {
 const authMiddleware = async (req: NextApiRequestExtended, res: NextApiResponse, next: () => void) => {
   const cookies = new Cookies(req, res);
   const token = cookies.get('auth-token');
-  console.log(token);
 
   if (!token) {
     res.status(401).json({ success: false, message: 'Not authenticated' });
@@ -20,7 +19,7 @@ const authMiddleware = async (req: NextApiRequestExtended, res: NextApiResponse,
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
 
-    req.user = decodedToken;
+    req.user = decodedToken as UserJWTPayload;
 
     next();
   } catch (err) {
