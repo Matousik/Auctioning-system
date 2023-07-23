@@ -18,9 +18,19 @@ export async function fetchApi(
         }
 
         const data = await res.json();
+        console.log(data);
         return data;
     } catch (error) {
         handleFetchError(error);
         throw error;
+    }
+}
+
+export function handleFetchError (error: unknown) {
+    if (error instanceof Error) {
+        console.error(`Fetch error: ${error.message}`);
+        console.error(`Stack trace: ${error.stack}`);
+    } else {
+        console.error(`Unknown error: ${error}`);
     }
 }

@@ -19,15 +19,21 @@ import axios, { AxiosError } from 'axios';
 import { IUserSchema } from '@/models/User';
 import { handleError } from '@/middlewares/errorHandler';
 
+interface UserContextObject {
+  email: string;
+  role: string;
+  _id: string;
+}
+
 interface UserContextProps {
-  user: IUserSchema | null;
-  setUser: React.Dispatch<React.SetStateAction<IUserSchema | null>>;
+  user: UserContextObject | null;
+  setUser: React.Dispatch<React.SetStateAction<UserContextObject | null>>;
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-    const [user, setUser] = useState<IUserSchema | null>(null);
+    const [user, setUser] = useState<UserContextObject | null>(null);
   
     useEffect(() => {
       const getUser = async () => {
@@ -46,6 +52,10 @@ export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }
   
       getUser();
     }, []);
+
+    useEffect(() => {
+      console.log("Context user change: " + user?.email);
+    }, [user]);    
   
     return (
       <UserContext.Provider value={{ user, setUser }}>

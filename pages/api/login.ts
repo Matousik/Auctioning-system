@@ -5,11 +5,18 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import jwt from 'jsonwebtoken';
 import Cookies from 'cookies';
 
+export interface UserObject {
+    _id: string;
+    email: string;
+    password: string;
+    role: string;
+}
+
 export default async function login(req: NextApiRequest, res: NextApiResponse) {  
     await dbConnect();
 
   if (req.method === 'POST') {
-    const { email, password } = req.body;
+    const { email, password: passwordFromReq } = req.body;
 
     const user = await User.findOne({ email });
 
@@ -18,7 +25,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
       return;
     }
 
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(passwordFromReq, user.password);
 
     if (!isPasswordCorrect) {
       res.status(400).json({ success: false, message: 'Invalid credentials' });
@@ -41,8 +48,9 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
         path: '/', // cookie will be available in all routes
     });
 
+    const { password, ...userWithoutPassword }: UserObject  = user.toObject();
 
-    res.status(200).json({ success: true, message: 'Logged in' });
+    res.status(200).json({ success: true, message: 'Logged in', user: userWithoutPassword });
   } else {
     res.status(400).json({ success: false });
   }

@@ -3,10 +3,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { AxiosError } from 'axios';
 import { useUser } from '@/context/UserContext';
-
-interface ErrorResponse {
-  message: string;
-}
+import { fetchApi } from '@/middlewares/fetchApiHandler';
+import dbConnect from '@/dbConnect';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,16 +16,15 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('/api/login', { email, password });
-
-      setUser(response.data.user);
+      const response = await fetchApi('/api/login', 'POST', { email, password });
+      setUser(response.user);
       router.push('/');
     } catch (error) {
-      const axiosError = error as AxiosError<ErrorResponse>;
-      if (axiosError && axiosError.response) {
-        setError(axiosError.response.data.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        console.error('An unknown eror happened.')
       }
     }
   };

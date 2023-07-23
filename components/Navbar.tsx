@@ -5,12 +5,13 @@ import axios, { AxiosError } from 'axios';
 
 export default function Navbar() {
   const { user, setUser } = useUser(); // use the useUser hook to get the user and setUser function
-
+  console.log("Navbar:" + user);
   useEffect(() => {
     if (!user) {
       const getUser = async () => {
         try {
           const res = await axios.get('/api/user');
+
           setUser(res.data.user);
         } catch (error) {
           const axiosError = error as AxiosError;
