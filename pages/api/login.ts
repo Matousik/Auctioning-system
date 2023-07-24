@@ -13,11 +13,9 @@ export interface UserObject {
 }
 
 export default async function login(req: NextApiRequest, res: NextApiResponse) {  
-    await dbConnect();
-
+  await dbConnect();
   if (req.method === 'POST') {
     const { email, password: passwordFromReq } = req.body;
-
     const user = await User.findOne({ email });
 
     if (!user) {

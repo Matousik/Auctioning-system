@@ -1,11 +1,6 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { AxiosError } from 'axios';
-
-interface ErrorResponse {
-  message: string;
-}
+import { fetchApi } from '@/middlewares/fetchApiHandler';
 
 const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -18,12 +13,13 @@ const SignupPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      await axios.post('/api/signup', { email, password, role });
+      const response = await fetchApi('/api/signup', 'POST', { email, password, role });
       router.push('/login');
     } catch (error) {
-      const axiosError = error as AxiosError<ErrorResponse>;
-      if (axiosError && axiosError.response) {
-        setError(axiosError.response.data.message);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        console.log("Unknown error occured during signup.")
       }
     }
   };

@@ -8,7 +8,6 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
 
   if (req.method === 'POST') {
     const { email, password, role } = req.body;
-
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -17,12 +16,9 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-
     const newUser = new User({ email, password: hashedPassword, role });
-
     await newUser.save();
-
-    res.status(201).json({ success: true, data: newUser });
+    res.status(201).json({ success: true, data: newUser.email });
   } else {
     res.status(400).json({ success: false });
   }

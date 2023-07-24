@@ -1,10 +1,7 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { AxiosError } from 'axios';
 import { useUser } from '@/context/UserContext';
 import { fetchApi } from '@/middlewares/fetchApiHandler';
-import dbConnect from '@/dbConnect';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
