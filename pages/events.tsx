@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchApi } from '@/middlewares/fetchApiHandler';
 
 interface AuctionEvent {
   _id: string;
@@ -10,11 +10,22 @@ interface AuctionEvent {
 
 export default function Events() {
   const [events, setEvents] = useState<AuctionEvent[]>([]);
-
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    axios.get('/api/auctionEvent')
-      .then(response => setEvents(response.data.data))
-      .catch(error => console.error(error));
+    const fetchData = async () => {
+      try {
+        const response = await fetchApi('/api/auctionEvent', 'GET');
+        setEvents(response.data)
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          console.error('An unknown error happened.')
+        }
+      }
+    }
+
+    fetchData();
   }, []);
 
   return (
@@ -29,6 +40,7 @@ export default function Events() {
           </Link>
         </div>
       ))}
+      {error && <p>{error}</p>}
     </div>
   );
 }
