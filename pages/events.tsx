@@ -11,20 +11,19 @@ interface AuctionEvent {
 export default function Events() {
   const [events, setEvents] = useState<AuctionEvent[]>([]);
   const [error, setError] = useState<string | null>(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchApi('/api/auctionEvent', 'GET');
-        setEvents(response.data)
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          console.error('An unknown error happened.')
-        }
+  const fetchData = async () => {
+    try {
+      const response = await fetchApi('/api/auctionEvent', 'GET');
+      setEvents(response.data)
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        console.error('An unknown error happened.')
       }
     }
-
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 

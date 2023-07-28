@@ -16,7 +16,6 @@
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
-import { IUserSchema } from '@/models/User';
 import { handleError } from '@/middlewares/errorHandler';
 
 interface UserContextObject {
