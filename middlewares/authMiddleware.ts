@@ -7,7 +7,7 @@ export interface NextApiRequestExtended extends NextApiRequest {
   user?: UserJWTPayload;
 }
 
-const authMiddleware = async (req: NextApiRequestExtended, res: NextApiResponse, next: () => void) => {
+const authMiddleware = (handler: Function) => async (req: NextApiRequestExtended, res: NextApiResponse) => {
   const cookies = new Cookies(req, res);
   const token = cookies.get('auth-token');
 
@@ -21,7 +21,7 @@ const authMiddleware = async (req: NextApiRequestExtended, res: NextApiResponse,
 
     req.user = decodedToken as UserJWTPayload;
 
-    next();
+    return await handler(req, res);
   } catch (err) {
     res.status(401).json({ success: false, message: 'Invalid token' });
   }

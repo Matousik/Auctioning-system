@@ -18,14 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
     case 'POST':
-      await adminCheck(req, res, async () => {
+      await adminCheck(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const auctionItem = await AuctionItem.create(req.body);
           res.status(201).json({ success: true, data: auctionItem })
         } catch (error) {
           res.status(400).json({ success: false })
         }
-      });
+      })(req,res);
       break;
     default:
       res.status(400).json({ success: false })

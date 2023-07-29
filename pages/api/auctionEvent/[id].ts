@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
     case 'PUT':
-      await adminCheck(req, res, async () => {
+      await adminCheck(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const auctionEvent = await AuctionEvent.findByIdAndUpdate(id, req.body, {
             new: true,
@@ -36,10 +36,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } catch (error) {
           res.status(400).json({ success: false });
         }
-      });
+      })(req,res);
       break;
     case 'DELETE':
-      await adminCheck(req, res, async () => {
+      await adminCheck(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const deletedAuctionEvent = await AuctionEvent.deleteOne({ _id: id });
           if (!deletedAuctionEvent) {
@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } catch (error) {
           res.status(400).json({ success: false });
         }
-      });
+      })(req,res);
       // TODO: When auction event gets deleted, implement deleting also all auction items associated with it.
       break;
     default:

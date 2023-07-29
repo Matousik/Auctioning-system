@@ -13,7 +13,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
       <main>{children}</main>
       <footer className="my-8">
-        {/* Your footer content goes here */}
+        {
+          <p className="text-center text-gray-400">Created by Matouš Vondrák</p>
+        }
       </footer>
     </div>
   );

@@ -15,8 +15,7 @@
  */
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios, { AxiosError } from 'axios';
-import { handleError } from '@/middlewares/errorHandler';
+import { fetchApi } from '@/middlewares/fetchApiHandler';
 
 interface UserContextObject {
   email: string;
@@ -33,18 +32,18 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const [user, setUser] = useState<UserContextObject | null>(null);
+    const [error, setError] = useState<string | null>(null);
   
     useEffect(() => {
       const getUser = async () => {
         try {
-          const res = await axios.get('/api/user');
+          const res = await fetchApi('/api/user', 'GET');
           setUser(res.data.user);
         } catch (error) {
-            const axiosError = error as AxiosError;
-            if (axiosError.response && axiosError.response.status === 401) {
-              setUser(null);
+            if (error instanceof Error) {
+                setError(error.message);
             } else {
-              handleError(error);
+                console.error('An unknown error happened.');
             }
       }
       };

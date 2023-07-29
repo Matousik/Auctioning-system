@@ -5,7 +5,7 @@ import { fetchApi } from '@/middlewares/fetchApiHandler';
 const SignupPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('user');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -40,13 +40,6 @@ const SignupPage: React.FC = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="role"
-          placeholder="Role (admin or user)"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
           required
         />
         <button type="submit">Signup</button>

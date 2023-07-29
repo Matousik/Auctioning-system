@@ -18,14 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
     case 'POST':
-      await adminCheck(req, res, async () => {
+      adminCheck(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const auctionEvent = await AuctionEvent.create(req.body);
           res.status(201).json({ success: true, data: auctionEvent });
         } catch (error) {
           res.status(400).json({ success: false });
         }
-      });
+      })(req, res);
       break;
     // PUT and DELETE requests are handled in pages/api/auctionEvent/[id].ts      
     default:

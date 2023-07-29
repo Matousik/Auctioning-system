@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break;
     case 'PUT':
-      await adminCheck(req, res, async () => {
+      await adminCheck(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const auctionItem = await AuctionItem.findByIdAndUpdate(id, req.body, {
             new: true,
@@ -37,10 +37,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } catch (error) {
           res.status(400).json({ success: false });
         }
-      });
+      })(req,res);
       break;
     case 'DELETE':
-      await adminCheck(req, res, async () => {
+      await adminCheck(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
           const deletedAuctionItem = await AuctionItem.deleteOne({ _id: id });
           if (!deletedAuctionItem) {
@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } catch (error) {
           res.status(400).json({ success: false });
         }
-      });
+      })(req,res);
       break;
     default:
       res.status(400).json({ success: false });
