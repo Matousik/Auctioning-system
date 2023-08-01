@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import axios, { AxiosError } from 'axios';
+import { fetchApi } from '@/middlewares/fetchApiHandler';
 
 export default function CreateEvent() {
   const router = useRouter();
